@@ -277,20 +277,23 @@ addMain.addEventListener("click", function () {
   mainTable.appendChild(addMain);
 });
 
-// Delete current row
+// Delete current row and subsequent rows until the next main row
 mainTable.addEventListener("click", function (event) {
   // Check if the clicked element is an "options" or "subOptions" button
   if (event.target.classList.contains("options") || event.target.classList.contains("subOptions")) {
     // Get the parent row of the clicked button
     var deleteParentRow = event.target.closest("tr");
-    deleteParentRow.remove(); // Corrected line to delete the row
 
-    // Get the next row (does not work)
+    // Delete rows until the next main row
     var nextRow = deleteParentRow.nextElementSibling;
-    if (nextRow && (nextRow.classList.contains("subClass") || nextRow.classList.contains("addSubClass"))) {
-      // Delete the next row if it exists and has the specified class
-      nextRow.remove();
+    while (nextRow && !nextRow.classList.contains("mainClass")) {
+      var currentRow = nextRow;
+      nextRow = nextRow.nextElementSibling;
+      currentRow.remove();
     }
+
+    // Delete the target row
+    deleteParentRow.remove();
   }
 });
 
@@ -410,6 +413,7 @@ var durationInputs = document.querySelectorAll('.duration input[type="number"]')
 durationInputs.forEach(function(input) {
   input.addEventListener('input', updateTimeFromDuration);
 });
+
 
 
 
