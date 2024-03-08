@@ -74,8 +74,13 @@ td {
   min-width: 20px;
 }
 
-.duration input {
-  max-width: 30px;
+.duration{
+  width: 30px;
+}
+
+.options{
+ padding-left: 10px;
+padding-right: 10px;
 }
 
 .subCell1 {
