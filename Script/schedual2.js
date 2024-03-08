@@ -280,7 +280,7 @@ addMain.addEventListener("click", function () {
 // Delete current row and subsequent rows until the next main row
 mainTable.addEventListener("click", function (event) {
   // Check if the clicked element is an "options" or "subOptions" button
-  if (event.target.classList.contains("options") || event.target.classList.contains("subOptions")) {
+  if (event.target.classList.contains("options") ) {
     // Get the parent row of the clicked button
     var deleteParentRow = event.target.closest("tr");
 
