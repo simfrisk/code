@@ -1,0 +1,129 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+.mainClass {
+  background-color: rgb(93, 93, 93);
+}
+
+.mainClass select {
+  color: white;
+  text-align: center;
+  width: 99%;
+  height: 100%;
+  background-color: rgb(93, 93, 93);
+  border: none;
+}
+
+.mainClass td:hover {
+  background-color: rgb(106, 106, 106);
+}
+
+.mainClass :nth-child(1):hover {
+  background-color: rgb(106, 106, 106);
+}
+
+.addMainClass {
+  background-color: rgb(169, 169, 169);
+}
+
+.addMainClass:hover {
+  background-color: rgb(181, 181, 181);
+}
+
+.addSubClass {
+  background-color: rgb(169, 169, 169);
+}
+
+.addSubClass:hover {
+  background-color: rgb(179, 179, 179);
+}
+
+.addSubClass :nth-child(1) {
+  text-align: left;
+  padding-left: 30px;
+}
+
+body {
+  background-color: black;
+  color: white;
+  margin: 0px;
+}
+
+table {
+  margin-top: 50px;
+  width: 100%;
+}
+
+th {
+  background-color: black;
+  text-align: center;
+}
+
+tr {
+  background-color: rgb(127, 127, 127);
+}
+
+td {
+  text-align: center;
+  height: 60px;
+}
+
+.toggle {
+  min-width: 20px;
+}
+
+.duration input {
+  max-width: 30px;
+}
+
+.subCell1 {
+  width: 90px;
+}
+
+.mainClass input {
+  color: white;
+  text-align: center;
+  width: 99%;
+  height: 100%;
+  background-color: rgb(93, 93, 93);
+  border: none;
+}
+
+.subClass input {
+  color: white;
+  text-align: center;
+  width: 99%;
+  height: 100%;
+  background-color: rgb(127, 127, 127);
+  border: none;
+}
+
+.subClass input:hover {
+  background-color: rgb(134, 134, 134);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  position: absolute;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.toggle {
+}
+
+/* main.className = "mainClass";
+sub.className = "subClass";
+addMain.className = "addMainClass";
+addSub.className = "addSubClass"; */
