@@ -78,6 +78,11 @@ td {
   width: 40px;
 }
 
+.duration input{
+width: 100%;
+}
+
+
 .options{
  padding-left: 10px;
  padding-right: 10px;
