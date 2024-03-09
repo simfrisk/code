@@ -166,11 +166,12 @@ for (let i = 0; i < 3; i++) {
 
     // Check if this is the last sub element in the loop
     if (j === 2) {
-      addSubClone = addSub.cloneNode(true); // Create a deep copy of addSub
+      const addSubClone = addSub.cloneNode(true); // Create a deep copy of addSub
       mainTable.appendChild(addSubClone); // Append addSub after the last sub element
     }
   }
 }
+
 
 mainTable.appendChild(addMain);
 
@@ -209,6 +210,8 @@ function disableTextInputs() {
     input.disabled = true;
   });
 }
+
+
 
 // Event listener for toggle buttons to toggle the visibility of their corresponding sub-rows
 mainTable.addEventListener("click", function (event) {
@@ -286,7 +289,7 @@ mainTable.addEventListener("click", function (event) {
 
     // Delete rows until the next main row
     var nextRow = deleteParentRow.nextElementSibling;
-    while (nextRow && !nextRow.classList.contains("mainClass")) {
+    while (nextRow && !(nextRow.classList.contains("mainClass") || nextRow.classList.contains("addMainClass"))) {
       var currentRow = nextRow;
       nextRow = nextRow.nextElementSibling;
       currentRow.remove();
@@ -297,7 +300,7 @@ mainTable.addEventListener("click", function (event) {
   }
 });
 
-//Delete current row
+//Delete current sub row
 mainTable.addEventListener("click", function (event) {
   // Check if the clicked element is a toggle button
   if (event.target.classList.contains("subOptions")) {
@@ -330,15 +333,51 @@ toggleAll.addEventListener("click", function () {
 
 
 
+//Add New Sub workaround. I addad new Sub elements.
 
+//Add TR for Sub
+var sub = document.createElement("tr");
+//Create TD for Sub
+var subCell1 = document.createElement("td");
+var subCell2 = document.createElement("td");
+var subOptions = document.createElement("td");
+// Set colspan for Sub Cell1 and Cell2
+subCell1.colSpan = 3;
+subCell2.colSpan = 3;
+subOptions.colSpan = 1;
+// Create input element for Subcells
+var subInput1 = document.createElement("input");
+var subInput2 = document.createElement("input");
+subInput1.type = "text";
+subInput2.type = "text";
+subCell1.appendChild(subInput1);
+subCell2.appendChild(subInput2);
+subOptions.textContent = "⋯";
+//Append to Sub
+sub.appendChild(subCell1);
+sub.appendChild(subCell2);
+sub.appendChild(subOptions);
+subCell1.className = "subCell1";
+subCell2.className = "subCell2";
+subOptions.className = "subOptions";
+sub.className = "subClass";
 // Change the event listener to target a specific cell within the row
 mainTable.addEventListener("click", function (event) {
   // Check if the clicked element has the class "addSubClass"
   if (event.target.classList.contains("addSubCell1Class")) {
     subClone = sub.cloneNode(true); // Create a deep copy of the sub row
-    mainTable.insertBefore(subClone, event.target.parentNode.parentNode); // Insert the cloned sub row before the target row
-  }
+    mainTable.insertBefore(subClone, event.target.parentNode);
+    }
 });
+
+
+
+
+
+
+
+
+
 
 // Function to add minutes to a given time
 function addMinutesToTime(time, minutes) {
@@ -415,5 +454,18 @@ durationInputs.forEach(function(input) {
 });
 
 
+//Disables all user time inputs except the first
+function disableTimeInputs() {
+  // Disable all text input fields except the first one
+  var textInputs = document.querySelectorAll("input[type='time']");
+  textInputs.forEach(function (input, index) {
+    if (index !== 0) {
+      input.disabled = true;
+    }
+  });
+}
 
-
+// // Change the event listener to target a specific cell within the row
+// addSubClone.addEventListener("click", function () {
+//   console.log('You clicked:', event.target);
+// });
