@@ -1,6 +1,7 @@
 body {
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   color: white;
+  margin: 0px;
 }
 
 .mainClass {
@@ -40,57 +41,44 @@ body {
   background-color: rgb(179, 179, 179);
 }
 
-.addSubClass :nth-child(1) {
-  text-align: left;
-  padding-left: 30px;
-}
-
-body {
-  background-color: black;
-  color: white;
-  margin: 0px;
-}
 
 table {
   margin-top: 50px;
   width: 100%;
+  background-color: black;
 }
+
 
 th {
   background-color: black;
   text-align: center;
+  
 }
+
 
 tr {
   background-color: rgb(127, 127, 127);
+  
+ 
 }
 
 td {
   text-align: center;
   height: 60px;
+
 }
 
 .toggle {
   min-width: 20px;
 }
 
-.duration{
-  width: 40px;
-}
 
-.duration input{
-width: 98%;
+.options {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 
-.options{
- padding-left: 10px;
- padding-right: 10px;
-}
-
-.subCell1 {
-  width: 90px;
-}
 
 .mainClass input {
   color: white;
@@ -120,6 +108,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   color: transparent;
   cursor: pointer;
   position: absolute;
+  
+  
+  
+  
+  
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -130,10 +123,28 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.toggle {
+
+
+.subCell1 {
+  width: 90px;
 }
 
-/* main.className = "mainClass";
-sub.className = "subClass";
-addMain.className = "addMainClass";
-addSub.className = "addSubClass"; */
+.subCell1 input {
+  width: 97%;
+}
+
+.subCell2 input {
+  width: 97%;
+}
+
+.scene input {
+  width: 97%;
+}
+
+.duration {
+  max-width: 30px;
+}
+
+.duration input {
+  max-width: 90%;
+}
