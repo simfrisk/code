@@ -1,440 +1,145 @@
-// Get a reference to the table element
-var mainTable = document.getElementById("mainTable");
+let countdownDuration1 = 3900
+let countdownDuration2 = 9900;
+let countdownDuration3 = 34900;
+let countdownDuration4 = 9900;
+let countdownDuration5 = 9900;
+let countdownDuration6 = 9900;
+let countdownDuration7 = 9900;
+let countdownDuration8 = 9900;
+let countdownDuration9 = 9900;
+let countdownDuration10 = 4900;
+let countdownDuration11 = 54900;
+let countdownDuration12 = 9900;
 
-// Create a new row element
-var main = document.createElement("tr");
-var sub = document.createElement("tr");
-var addMain = document.createElement("tr");
-var addSub = document.createElement("tr");
+let timerInterval; // Declare timerInterval in a wider scope
+let paused = false; // Track if the timer is paused
+let remainingTime; // Store remaining time when paused
 
-// Create cell elements for each column in the row
-var toggle = document.createElement("td");
-var stat = document.createElement("td");
-var time = document.createElement("td");
-var duration = document.createElement("td");
-var scene = document.createElement("td");
-var options = document.createElement("td");
+// Select the element where the timer will be displayed
+const display = document.getElementById('display');
+const startBtn = document.getElementById("startBtn");
+const pauseBtn = document.getElementById("stopBtn"); // Pause button
+const resetBtn = document.getElementById("resetBtn");
+const step1 = document.getElementById("step1");
+const step2 = document.getElementById("step2");
 
-toggle.className = "toggle";
-stat.className = "stat";
-time.className = "time";
-duration.className = "duration";
-scene.className = "scene";
-options.className = "options";
+let currentStep = 1; // Track the current step of the timer
 
-//Content Main
-toggle.textContent = "▶";
-options.textContent = "⋯";
-
-// Create select element for stat
-var statSelect = document.createElement("select");
-
-// Create option elements for the select menu
-var option1 = document.createElement("option");
-option1.text = "";
-var option2 = document.createElement("option");
-option2.text = "✓";
-var option3 = document.createElement("option");
-option3.text = "✗";
-
-// Create input element for time
-var timeInput = document.createElement("input");
-timeInput.type = "time";
-
-
-// Append the input element to the time cell
-time.appendChild(timeInput);
-
-// Create input element for duration
-var durationInput = document.createElement("input");
-durationInput.type = "number";
-// Append the input element to the duration cell
-duration.appendChild(durationInput);
-
-// Set colspan for Main scene
-scene.colSpan = 2;
-
-// Append option elements to the select menu
-statSelect.add(option1);
-statSelect.add(option2);
-statSelect.add(option3);
-
-// Append the select menu to the stat1 cell
-stat.appendChild(statSelect);
-
-// Create input element for Subcells
-var sceneInput = document.createElement("input");
-sceneInput.type = "text";
-scene.appendChild(sceneInput);
-
-//Append to Main
-main.appendChild(toggle);
-main.appendChild(stat);
-main.appendChild(time);
-main.appendChild(duration);
-main.appendChild(scene);
-main.appendChild(options);
-
-//Create TD for Sub
-var subCell1 = document.createElement("td");
-var subCell2 = document.createElement("td");
-var subOptions = document.createElement("td");
-
-// Set colspan for Sub Cell1 and Cell2
-subCell1.colSpan = 3;
-subCell2.colSpan = 3;
-subOptions.colSpan = 1;
-
-// Create input element for Subcells
-var subInput1 = document.createElement("input");
-var subInput2 = document.createElement("input");
-subInput1.type = "text";
-subInput2.type = "text";
-subCell1.appendChild(subInput1);
-subCell2.appendChild(subInput2);
-subOptions.textContent = "⋯";
-
-//Append to Sub
-sub.appendChild(subCell1);
-sub.appendChild(subCell2);
-sub.appendChild(subOptions);
-
-subCell1.className = "subCell1";
-subCell2.className = "subCell2";
-subOptions.className = "subOptions";
-
-//Hides the Sub rows
-sub.style.display = "none";
-
-//Create TD for addSub
-var addSubCell1 = document.createElement("td");
-
-//Content addSub
-addSubCell1.textContent = "+ New";
-
-// Set colspan for AddSubCell1 add
-addSubCell1.colSpan = 7;
-
-//Append to addSub
-addSub.appendChild(addSubCell1);
-
-//AddSubcell Class
-addSubCell1.className = "addSubCell1Class";
-
-//Hides the Sub rows
-addSub.style.display = "none";
-
-//Create TD for addMain
-var addMainCell1 = document.createElement("td");
-
-//Content addMain
-addMainCell1.textContent = "+ New";
-
-// Set colspan for AddMainCell1 add
-addMainCell1.colSpan = 7;
-
-//Append to addMain
-addMain.appendChild(addMainCell1);
-
-//Classes
-main.className = "mainClass";
-sub.className = "subClass";
-addMain.className = "addMainClass";
-addSub.className = "addSubClass";
-
-//Id sequneces
-var mainCounter = 0;
-var subCounter = 0;
-
-var addSubClone;
-
-
-for (let i = 0; i < 3; i++) {
-  const mainClone = main.cloneNode(true); // Create a deep copy of the main row
-  mainCounter++; // Increment the highest ID number
-  const mainId = "main_" + mainCounter; // Generate a unique ID for the main row
-
-  mainClone.id = mainId; // Set the unique ID as the id attribute of the main row
-  mainTable.appendChild(mainClone); // Append the cloned main row with the unique ID
-
-  for (let j = 0; j < 3; j++) {
-    const subClone = sub.cloneNode(true); // Create a deep copy of the sub row
-    subCounter++;
-    const subId = "main_" + mainCounter + "_Sub_" + subCounter; // Generate a unique ID for the sub row
-
-    subClone.id = subId; // Set the unique ID as the id attribute of the sub row
-    mainTable.appendChild(subClone); // Append the cloned sub row
-
-    // Check if this is the last sub element in the loop
-    if (j === 2) {
-      const addSubClone = addSub.cloneNode(true); // Create a deep copy of addSub
-      mainTable.appendChild(addSubClone); // Append addSub after the last sub element
-    }
-  }
-}
-
-
-
-// Change the event listener to target a specific cell within the row
-mainTable.addEventListener("click", function (event) {
-  sub.style.display = "table-row";
-  // Check if the clicked element has the class "addSubClass"
-  if (event.target.classList.contains("addSubCell1Class")) {
-    subClone = sub.cloneNode(true); // Create a deep copy of the sub row
-    mainTable.insertBefore(subClone, event.target.parentNode);
-    }
-});
-
-
-
-
-mainTable.appendChild(addMain);
-
-
-//Lock and Unlock Function
-var lock = document.getElementById("lock");
-
-lock.addEventListener("click", function () {
-  // Toggle the display property of newSubRow
-  if (addMain.style.display === "none") {
-    addMain.style.display = "table-row";
-    lock.textContent = "🔓";
-    lock.style.backgroundColor = "black";
-    // Enable text input fields
-    enableTextInputs();
-  } else {
-    addMain.style.display = "none";
-    lock.textContent = "🔒";
-    lock.style.backgroundColor = "darkred";
-    // Disable text input fields
-    disableTextInputs();
-  }
-});
-
-function enableTextInputs() {
-  // Enable only text input fields
-  var textInputs = document.querySelectorAll("input[type='text']");
-  textInputs.forEach(function (input) {
-    input.disabled = false;
-  });
-}
-
-function disableTextInputs() {
-  // Disable only text input fields
-  var textInputs = document.querySelectorAll("input[type='text']");
-  textInputs.forEach(function (input) {
-    input.disabled = true;
-  });
-}
-
-
-
-// Event listener for toggle buttons to toggle the visibility of their corresponding sub-rows
-mainTable.addEventListener("click", function (event) {
-  // Check if the clicked element is a toggle button
-  if (event.target.classList.contains("toggle")) {
-    // Get the parent row of the clicked toggle button
-    var parentRow = event.target.closest("tr");
-
-    // Get the sub-row associated with the parent row
-    var subRow = parentRow.nextElementSibling;
-
-    // Toggle the display property of the sub-row
-    if (subRow.style.display === "none") {
-      subRow.style.display = "table-row";
-      event.target.textContent = "▼";
-    } else {
-      subRow.style.display = "none";
-      event.target.textContent = "▶";
+// Define the countdown function
+function startCountdown(duration, nextStepCallback) {
+    // If not paused, initialize remaining time
+    if (!paused) {
+        remainingTime = duration;
     }
 
-    // Toggle all sub-rows before the next main row
-    var nextRow = subRow.nextElementSibling; // Start from the next row after subRow
-    while (nextRow && !nextRow.classList.contains("mainClass")) {
-      if (
-        nextRow.classList.contains("subClass") ||
-        nextRow.classList.contains("addSubClass")
-      ) {
-        // Code to execute if either condition is true
-        if (nextRow.style.display === "none") {
-          nextRow.style.display = "table-row";
-        } else {
-          nextRow.style.display = "none";
+    // Update the timer every 100 milliseconds
+    timerInterval = setInterval(() => {
+        // Calculate seconds and milliseconds (1 digit for ms)
+        const seconds = Math.floor(remainingTime / 1000);
+        const milliseconds = Math.floor((remainingTime % 1000) / 100); // 1 digit (tenths)
+
+        // Display the remaining time in "seconds.m" format
+        display.textContent = `${seconds}`;
+
+        // Decrease the remaining time by 100 milliseconds
+        remainingTime -= 100;
+
+        // Check if the countdown has finished
+        if (remainingTime < 0) {
+            clearInterval(timerInterval); // Stop the countdown
+            if (nextStepCallback) nextStepCallback(); // Proceed to the next step
         }
-      }
-      nextRow = nextRow.nextElementSibling;
+
+    }, 100);
+}
+
+// Function to update instructions and start the next countdown
+function proceedToNextStep() {
+    if (currentStep === 1) {
+        step1.textContent = "Pour 50g of water";
+        step2.textContent = "Gently Swirl and wait";
+        startCountdown(countdownDuration2, proceedToNextStep);
+        currentStep = 2;
+    } else if (currentStep === 2) {
+        step1.textContent = "Gently Swirl once and wait";
+        step2.textContent = "Pour up to 100g total";
+        startCountdown(countdownDuration3, proceedToNextStep); // Last step, no next step callback
+        currentStep = 3;
+    } else if (currentStep === 3) {
+        step1.textContent = "Pour up to 100g total";
+        step2.textContent = "Pause";
+        startCountdown(countdownDuration3, proceedToNextStep); // Last step, no next step callback
+        currentStep = 4;
+    } else if (currentStep === 4) {
+        step1.textContent = "Pause";
+        step2.textContent = "Pour up to 150g total";
+        startCountdown(countdownDuration4, proceedToNextStep); // Last step, no next step callback
+        currentStep = 5;
+    } else if (currentStep === 5) {
+        step1.textContent = "Pour up to 150g total";
+        step2.textContent = "Pause";
+        startCountdown(countdownDuration5, proceedToNextStep); // Last step, no next step callback
+        currentStep = 6;
+    } else if (currentStep === 6) {
+        step1.textContent = "Pause";
+        step2.textContent = "Pour up to 200g total";
+        startCountdown(countdownDuration6, proceedToNextStep); // Last step, no next step callback
+        currentStep = 7;
+    } else if (currentStep === 7) {
+        step1.textContent = "Pour up to 200g total";
+        step2.textContent = "Pause";
+        startCountdown(countdownDuration7, proceedToNextStep); // Last step, no next step callback
+        currentStep = 8;
+    } else if (currentStep === 8) {
+        step1.textContent = "Pause";
+        step2.textContent = "Pour up to 250g total";
+        startCountdown(countdownDuration8, proceedToNextStep); // Last step, no next step callback
+        currentStep = 9;
+    } else if (currentStep === 9) {
+        step1.textContent = "Pour up to 250g total";
+        step2.textContent = "Gently swirl";
+        startCountdown(countdownDuration9, proceedToNextStep); // Last step, no next step callback
+        currentStep = 9;
+    } else if (currentStep === 10) {
+        step1.textContent = "Gently swirl";
+        step2.textContent = "finish around 3:00";
+        startCountdown(countdownDuration10, proceedToNextStep); // Last step, no next step callback
+        currentStep = 10;
+    } else if (currentStep === 11) {
+        step1.textContent = "finish around 3:00";
+        step2.textContent = "Done";
+        startCountdown(countdownDuration11, proceedToNextStep); // Last step, no next step callback
+        currentStep = 11;
+    } else if (currentStep === 12) {
+        step1.textContent = "Enjoy Your Coffee";
+        step2.textContent = "";
+        startCountdown(null); // Last step, no next step callback
+        currentStep = 12;
     }
-  }
-});
-
-//adds new Main Row
-addMain.addEventListener("click", function () {
-  sub.style.display = "none";
-  for (let i = 0; i < 1; i++) {
-    const mainClone = main.cloneNode(true); // Create a deep copy of the main row
-    mainCounter++; // Increment the highest ID number
-    const mainId = "main_" + mainCounter; // Generate a unique ID for the main row
-
-    mainClone.id = mainId; // Set the unique ID as the id attribute of the main row
-    mainTable.appendChild(mainClone); // Append the cloned main row with the unique ID
-
-    for (let j = 0; j < 3; j++) {
-      const subClone = sub.cloneNode(true); // Create a deep copy of the sub row
-      subCounter++;
-      const subId = "main_" + mainCounter + "_Sub_" + subCounter; // Generate a unique ID for the sub row
-
-      subClone.id = subId; // Set the unique ID as the id attribute of the sub row
-      mainTable.appendChild(subClone); // Append the cloned sub row
-
-      // Check if this is the last sub element in the loop
-      if (j === 2) {
-        const addSubClone = addSub.cloneNode(true); // Create a deep copy of addSub
-        mainTable.appendChild(addSubClone); // Append addSub after the last sub element
-      }
-    }
-  }
-
-  mainTable.appendChild(addMain);
-});
-
-// Delete current row and subsequent rows until the next main row
-mainTable.addEventListener("click", function (event) {
-  // Check if the clicked element is an "options" or "subOptions" button
-  if (event.target.classList.contains("options") ) {
-    // Get the parent row of the clicked button
-    var deleteParentRow = event.target.closest("tr");
-
-    // Delete rows until the next main row
-    var nextRow = deleteParentRow.nextElementSibling;
-    while (nextRow && !(nextRow.classList.contains("mainClass") || nextRow.classList.contains("addMainClass"))) {
-      var currentRow = nextRow;
-      nextRow = nextRow.nextElementSibling;
-      currentRow.remove();
-    }
-
-    // Delete the target row
-    deleteParentRow.remove();
-  }
-});
-
-//Delete current sub row
-mainTable.addEventListener("click", function (event) {
-  // Check if the clicked element is a toggle button
-  if (event.target.classList.contains("subOptions")) {
-    // Get the parent row of the clicked toggle button
-    var deleteParentRow = event.target.closest("tr");
-    deleteParentRow.remove(); // Corrected line to delete the row
-  }
-});
-
-// Get a reference to the toggleAll element
-var toggleAll = document.getElementById("toggleAll");
-// Initialize a variable to track the state
-var isHidden = true;
-// Event listener for toggleAll to toggle all sub-rows and addSub-rows
-toggleAll.addEventListener("click", function () {
-  // Get all sub-rows and addSub-rows
-  var subRows = document.querySelectorAll(".subClass");
-  var addSubRows = document.querySelectorAll(".addSubClass");
-  // Toggle the display property of sub-rows
-  subRows.forEach(function (row) {
-    row.style.display = isHidden ? "table-row" : "none";
-  });
-  // Toggle the display property of addSub-rows
-  addSubRows.forEach(function (row) {
-    row.style.display = isHidden ? "table-row" : "none";
-  });
-  // Update the state
-  isHidden = !isHidden;
-});
-
-
-
-
-// Function to add minutes to a given time
-function addMinutesToTime(time, minutes) {
-    var [hours, mins] = time.split(":").map(Number);
-    var totalMins = hours * 60 + mins + minutes;
-    var newHours = Math.floor(totalMins / 60);
-    var newMins = totalMins % 60;
-    return `${String(newHours).padStart(2, '0')}:${String(newMins).padStart(2, '0')}`;
 }
 
-// Function to update time fields based on duration changes
-function updateTimeFromDuration() {
-    var mainRows = document.querySelectorAll('.mainClass');
-    mainRows.forEach(function(row, index) {
-        var timeInput = row.querySelector('.time input[type="time"]');
-        var durationInput = row.querySelector('.duration input[type="number"]');
-        if (timeInput && durationInput) {
-            var nextRow = mainRows[index + 1];
-            if (nextRow) {
-                var nextTimeInput = nextRow.querySelector('.time input[type="time"]');
-                if (nextTimeInput) {
-                    var duration = parseInt(durationInput.value) || 0;
-                    var currentTime = timeInput.value;
-                    var newTime = addMinutesToTime(currentTime, duration);
-                    nextTimeInput.value = newTime;
-                }
-            }
-        }
-    });
-}
+// Attach the click event to start the countdown
+startBtn.onclick = function() {
+    clearInterval(timerInterval);
+    step1.textContent = "Pre Timer";
+    step2.textContent = "Pour 50g of water";
+    startCountdown(countdownDuration1, proceedToNextStep);
+    currentStep = 1;
+    paused = false; // Reset pause state when starting
+};
 
-// Event listeners for duration inputs
-var durationInputs = document.querySelectorAll('.duration input[type="number"]');
-durationInputs.forEach(function(input) {
-    input.addEventListener('input', updateTimeFromDuration);
-});
+// Attach the click event to pause the countdown
+pauseBtn.onclick = function() {
+    clearInterval(timerInterval); // Stop the countdown
+    paused = true; // Set the pause state to true
+};
 
-
-
-// Function to add minutes to a given time
-function addMinutesToTime(time, minutes) {
-  var [hours, mins] = time.split(":").map(Number);
-  var totalMins = hours * 60 + mins + minutes;
-  var newHours = Math.floor(totalMins / 60);
-  var newMins = totalMins % 60;
-  return `${String(newHours).padStart(2, '0')}:${String(newMins).padStart(2, '0')}`;
-}
-
-// Function to update time fields based on duration changes
-function updateTimeFromDuration() {
-  var mainRows = document.querySelectorAll('.mainClass');
-  mainRows.forEach(function(row, index) {
-      var timeInput = row.querySelector('.time input[type="time"]');
-      var durationInput = row.querySelector('.duration input[type="number"]');
-      if (timeInput && durationInput) {
-          var nextRow = mainRows[index + 1];
-          if (nextRow) {
-              var nextTimeInput = nextRow.querySelector('.time input[type="time"]');
-              if (nextTimeInput) {
-                  var duration = parseInt(durationInput.value) || 0;
-                  var currentTime = timeInput.value;
-                  var newTime = addMinutesToTime(currentTime, duration);
-                  nextTimeInput.value = newTime;
-              }
-          }
-      }
-  });
-}
-
-// Event listeners for duration inputs
-var durationInputs = document.querySelectorAll('.duration input[type="number"]');
-durationInputs.forEach(function(input) {
-  input.addEventListener('input', updateTimeFromDuration);
-});
-
-
-//Disables all user time inputs except the first
-function disableTimeInputs() {
-  // Disable all text input fields except the first one
-  var textInputs = document.querySelectorAll("input[type='time']");
-  textInputs.forEach(function (input, index) {
-    if (index !== 0) {
-      input.disabled = true;
-    }
-  });
-}
-
-
+// Reset button logic
+resetBtn.onclick = function () {
+    clearInterval(timerInterval); // Stop the countdown if it's running
+    display.textContent = "45"; // Reset the display to the initial time
+    step1.textContent = "Start the timer!"; // Reset the instructions
+    step2.textContent = "Pour 50g of water to bloom";
+    currentStep = 1; // Reset to step 1
+    paused = false; // Reset pause state
+};
